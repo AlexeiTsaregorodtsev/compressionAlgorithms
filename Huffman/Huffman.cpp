@@ -263,8 +263,9 @@ namespace Huffman {
 			std::end(huffChars),
 			[](auto &first, auto &second)
 			{
-				return std::get<HUFFCHAR_LENGTH>(first) <= std::get<HUFFCHAR_LENGTH>(second)
-					&& std::get<HUFFCHAR_CHAR>(first) != 0;
+				if (std::get<HUFFCHAR_LENGTH>(first) == std::get<HUFFCHAR_LENGTH>(second))
+					return std::get<HUFFCHAR_CHAR>(first) > std::get<HUFFCHAR_CHAR>(second);
+				return std::get<HUFFCHAR_LENGTH>(first) < std::get<HUFFCHAR_LENGTH>(second);
 			}
 		);
 

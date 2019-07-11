@@ -28,5 +28,9 @@ int main(int argc, char* argv[])
 	}*/
 	std::cout << std::endl;
 
+	Huffman::Huffman haffman2("c:\\temp\\gently_1.txt.txt",
+		"c:\\temp\\gently_1.txt.arh");
+	haffman2.unzipping();
+
 	return 0;
 }
