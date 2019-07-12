@@ -9,8 +9,7 @@ namespace Huffman {
 	// Конструктор
 	Node::Node(const char& key, const long long& amount)
 		: key(key), amount(amount),
-		left(nullptr), right(nullptr),
-		parent(nullptr) {}
+		left(nullptr), right(nullptr) {}
 
 	// Деструктор
 	Node::~Node()
@@ -73,18 +72,6 @@ namespace Huffman {
 		if (right)
 			delete right;
 		right = value;
-	}
-
-	// Получить родителя
-	Node* Node::getParent() const
-	{
-		return parent;
-	}
-
-	// Задать родителя
-	void Node::setParent(Node* value)
-	{
-		parent = value;
 	}
 
 	// Некоторые операции с узлом

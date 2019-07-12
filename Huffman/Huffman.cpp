@@ -9,6 +9,7 @@ namespace Huffman {
 	Huffman::Huffman(const std::string& unzippingFileName, const std::string& zippingFileName)
 		:unzippingFileName(unzippingFileName), zippingFileName(zippingFileName)
 	{
+		// Инициализация буферов чтения и записи
 		buffRead = new char[bufferSize];
 		buffSave = new char[bufferSize];
 	}
@@ -108,16 +109,13 @@ namespace Huffman {
 				parent->setLeft(secondNode);
 			}
 			// Родительский узел вставляем в вектор узлов с сортировкой
-			std::vector<Node*>::iterator it = nodes.begin();
-			while (true)
-			{
-				if (it == nodes.end() || (*it)->getAmount() < parent->getAmount())
+			auto it = std::find_if(nodes.begin(), nodes.end(),
+				[&parent](auto node)
 				{
-					nodes.insert(it, parent);
-					break;
+					return node->getAmount() < parent->getAmount();
 				}
-				it++;
-			}
+			);
+			nodes.insert(it, parent);
 		}
 
 		// Оставшийся узел будет корнем дерева
@@ -216,7 +214,7 @@ namespace Huffman {
 			// Считываем очередной фрагмен файла
 			fIn.read(buffRead, static_cast<long>(sizeof(char) * bufferSize));
 			// Узнаем, сколько считано из файла
-			long lenBuffRead = fIn.gcount();
+			long lenBuffRead = static_cast<long>(fIn.gcount());
 
 			// Читаем посимвольно буфер
 			for (long i = 0; i < lenBuffRead; ++i)
@@ -225,7 +223,7 @@ namespace Huffman {
 				std::vector<Node*>::iterator it =
 					std::find_if(dic.begin(),
 						dic.end(),
-						[this, &i](const Node* node)
+						[this, &i](auto node)
 						{
 							return node->getKey() == buffRead[i] && node->getAmount() != 0;
 						});
@@ -263,6 +261,7 @@ namespace Huffman {
 			std::end(huffChars),
 			[](auto &first, auto &second)
 			{
+				// Сортируем так, что бы код конца файла был в конце списка
 				if (std::get<HUFFCHAR_LENGTH>(first) == std::get<HUFFCHAR_LENGTH>(second))
 					return std::get<HUFFCHAR_CHAR>(first) > std::get<HUFFCHAR_CHAR>(second);
 				return std::get<HUFFCHAR_LENGTH>(first) < std::get<HUFFCHAR_LENGTH>(second);
@@ -308,14 +307,14 @@ namespace Huffman {
 		{
 			fIn.read(buffRead, static_cast<long>(sizeof(char) * bufferSize));
 			// Читаем посимвольно буфер
-			long lenBuffRead = fIn.gcount();
+			long lenBuffRead = static_cast<long>(fIn.gcount());
 			for (int i = 0; i < lenBuffRead; ++i)
 			{
 				// Ищем считанный код в списке хаффмана
-				std::vector<std::tuple<char, int, long long>>::iterator it =
+				auto it =
 					std::find_if(huffChars.begin(),
 						huffChars.end(),
-						[this, &i](const std::tuple<char, int, long long>& value)
+						[this, &i](auto& value)
 						{
 							return std::get<HUFFCHAR_CHAR>(value) == buffRead[i];
 						}

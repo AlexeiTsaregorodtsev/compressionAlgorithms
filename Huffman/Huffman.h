@@ -48,7 +48,7 @@ namespace Huffman
 			unsigned long& buffSavePosition, std::ofstream& fOut);
 	public:
 		// Конструктор
-		Huffman(const std::string& unzippingFileName = "", const std::string& zippingFileName = "");
+		Huffman(const std::string& unzippingFileName, const std::string& zippingFileName);
 		// Деструктор
 		~Huffman();
 

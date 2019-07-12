@@ -13,7 +13,6 @@ namespace Huffman {
 		long long amount;   // Количество
 		Node* left;         // Ссылка на левое поддерево
 		Node* right;        // Ссылка на правое поддерево
-		Node* parent;       // Ссылка на родителя
 		// Скрываем конструктор копирования оператор присваивания
 		Node(const Node& node);
 		Node& operator=(const Node& node);
@@ -31,8 +30,6 @@ namespace Huffman {
 		void setLeft(Node* value);              // Задать левое поддерево
 		Node* getRight() const;                 // Получить правое поддерево
 		void setRight(Node* value);             // Задать правое поддерево
-		Node* getParent() const;                // Получить родителя
-		void setParent(Node* value);            // Задать родителя
 
 		// Некоторые операции с узлом
 		void increment();       // Увеличить количество на 1
